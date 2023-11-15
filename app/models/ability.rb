@@ -33,6 +33,7 @@ class Ability
       can :manage, :all
     else
       can :read, :all
+      can :public_recipes, Recipe
       can :create, [Recipe, Food]
       can :destroy, Recipe, user_id: user.id
       can :destroy, Food, user_id: user.id
