@@ -2,7 +2,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable
 
   has_many :recipes, foreign_key: 'user_id'
-  has_many :likes
+  has_many :foods
 
   before_validation :set_default_recipes_counter
 
