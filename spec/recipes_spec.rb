@@ -4,10 +4,10 @@ RSpec.describe RecipesController, type: :controller do
   let(:user) { create(:user) }
   let(:valid_attributes) do
     {
-      name: "Test Recipe",
+      name: 'Test Recipe',
       preparation_time: 45,
       cooking_time: 90,
-      description: "Test recipe description."
+      description: 'Test recipe description.'
     }
   end
 
@@ -15,21 +15,21 @@ RSpec.describe RecipesController, type: :controller do
     sign_in user
   end
 
-  describe "POST #create" do
-    context "with valid parameters" do
-      it "creates a new Recipe" do
-        expect {
+  describe 'POST #create' do
+    context 'with valid parameters' do
+      it 'creates a new Recipe' do
+        expect do
           post :create, params: { recipe: valid_attributes }
-        }.to change(Recipe, :count).by(1)
+        end.to change(Recipe, :count).by(1)
       end
 
-      it "redirects to the created recipe" do
+      it 'redirects to the created recipe' do
         post :create, params: { recipe: valid_attributes }
         expect(response).to redirect_to(recipe_url(Recipe.last))
       end
     end
 
-    context "with invalid parameters" do
+    context 'with invalid parameters' do
       it "returns a success response (i.e., to display the 'new' template)" do
         post :create, params: { recipe: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
@@ -44,7 +44,7 @@ RSpec.describe RecipesController, type: :controller do
       name: nil,
       preparation_time: 45,
       cooking_time: 90,
-      description: "Test recipe description."
+      description: 'Test recipe description.'
     }
   end
 end
