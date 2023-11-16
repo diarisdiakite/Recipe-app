@@ -11,18 +11,18 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="container">
     <%= form.label :name %>
-  <%= form.text_field :name %>
+    <%= form.text_field :name %>
 
-  <%= form.label :preparation_time %>
-  <%= form.number_field :preparation_time %>
+    <%= form.label :preparation_time %>
+    <%= form.number_field :preparation_time %>
 
-  <%= form.label :cooking_time %>
-  <%= form.number_field :cooking_time %>
+    <%= form.label :cooking_time %>
+    <%= form.number_field :cooking_time %>
 
-  <%= form.label :description %>
-  <%= form.text_area :description %>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
     <%= form.submit %>
   </div>
 <% end %>

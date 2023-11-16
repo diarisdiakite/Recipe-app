@@ -1,6 +1,6 @@
 class RecipesController < ApplicationController
   load_and_authorize_resource
-  
+
   before_action :set_recipe, only: %i[show edit update destroy]
   skip_before_action :authenticate_user!, only: [:index]
 
@@ -18,7 +18,7 @@ class RecipesController < ApplicationController
     @recipes = Recipe.private_recipes
     render :index
   end
-  
+
   # GET /recipes/1 or /recipes/1.json
   def show; end
 

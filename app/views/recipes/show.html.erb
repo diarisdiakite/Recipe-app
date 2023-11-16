@@ -8,3 +8,14 @@
 
   <%= button_to "Destroy this recipe", @recipe, method: :delete %>
 </div>
+
+<div class="comments">
+  <ul>
+    <% @recipe.foods.each do |food| %>
+      <li><%= "#{food.user.name}: #{food.name}" %></li>
+      <% if can? :destroy, food %>
+        <%= button_to 'Delete', recipe_food_path(user_id: @user.id, recipe_id: @recipe.id, id: food.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    <% end %>
+  </ul>
+</div> 

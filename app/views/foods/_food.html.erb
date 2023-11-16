@@ -1,2 +1,12 @@
 <div id="<%= dom_id food %>">
+  <li class="container">
+    <div class="details">
+      <h2 class="title"><%= link_to food.name, food_path(food) %></h2>
+      <div class="details">
+        <p><%= food.measurement_unit %></p>
+        <p><%= food.price %></p>
+        <p><%= 'action' %></p>
+      </div>
+    </div>
+  </li>
 </div>
