@@ -20,6 +20,8 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: 1234
 
 development:
   <<: *default
@@ -30,11 +32,8 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  # username: ''
-
-  # The password associated with the postgres role (username).
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  username: postgres
+  password: 1234
   # password: ''
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -62,8 +61,8 @@ test:
   <<: *default
   database: Recipe-app-test
   # url: <%= ENV['TEST_DATABASE_URL'] %>
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  username: postgres
+  password: 1234
 
 # Important --------------------------
 # To run the tests, create the database by running the below command
@@ -95,5 +94,5 @@ test:
 production:
   <<: *default
   database: Recipe-app
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV["BLOG_APP_DATABASE_PASSWORD"] %>
+  username: postgres
+  password: 1234
