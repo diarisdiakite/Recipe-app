@@ -1,17 +1,16 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'factory_bot_rails'
+require 'shoulda/matchers'
+require 'faker'
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
-# Add additional requires below this line. Rails is not loaded until this point!
-# Capybara configuration for system tests
 require 'capybara/rspec'
-require 'selenium-webdriver'
-
-Capybara.javascript_driver = :selenium_chrome
-Capybara.server = :puma
+# Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -33,12 +32,20 @@ Capybara.server = :puma
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
-  abort e.to_s.strip
+  puts e.to_s.strip
+  exit 1
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{Rails.root}/spec/fixtures"
 
+  config.include Warden::Test::Helpers, type: :feature
+  config.before :suite do
+    Warden.test_mode!
+  end
+  config.after :each do
+    Warden.test_reset!
+  end
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -46,7 +53,16 @@ RSpec.configure do |config|
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
 
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
@@ -59,19 +75,56 @@ RSpec.configure do |config|
   #     end
   #
   # The different available types are documented in the features, such as in
-  # https://rspec.info/features/6-0/rspec-rails
+  # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  # ... (todo lo demás sigue igual)
 
-  require 'factory_bot_rails'
+  # Shoulda Matchers
+  Shoulda::Matchers.configure do |shoulda_config|
+    shoulda_config.integrate do |with|
+      with.test_framework :rspec
+      with.library :rails
+    end
+  end
 
-  config.include FactoryBot::Syntax::Methods
+  # FactoryBot
+  RSpec.configure do |rspec_config|
+    rspec_config.include FactoryBot::Syntax::Methods
+  end
+end
 
-  config.before(:each, type: :system) do
-    driven_by :selenium_chrome
+class TestConfiguration
+  @example_user = nil
+
+  def self.example_user
+    @example_user ||= create_example_user
+  end
+
+  def self.create_example_user
+    user = User.create!(
+      name: 'Ejemplo Usuario',
+      email: 'ejemplo@example.com',
+      password: 'password123',
+      confirmed_at: Time.now
+    )
+
+    create_food(user, 'Banana')
+    create_food(user, 'Apple')
+    user
+  end
+
+  def self.create_food(user, _name)
+    Food.create!(
+      name: 'Nombre del Alimento',
+      measurement_unit: 'unit',
+      price: 1,
+      quantity: 1,
+      user: user # Donde `user` representa la instancia del modelo User a la que deseas asociar la comida
+    )
   end
 end

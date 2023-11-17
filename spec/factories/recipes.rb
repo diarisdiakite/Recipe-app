@@ -1,8 +1,10 @@
 FactoryBot.define do
   factory :recipe do
-    name { 'Sample Recipe' }
-    preparation_time { 30 }
-    cooking_time { 60 }
-    description { 'Delicious recipe description.' }
+    name { 'Pasta' }
+    preparation_time { 15 }
+    cooking_time { 30 }
+    description { 'Delicious pasta with tomato sauce.' }
+    public { false }
+    association :user
   end
 end

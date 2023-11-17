@@ -1,48 +1,38 @@
 require 'test_helper'
 
 class FoodsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @food = foods(:one)
+  test 'should get index' do
+    get foods_index_url
+    assert_response :success
   end
 
-  test 'should get index' do
-    get foods_url
+  test 'should get show' do
+    get foods_show_url
     assert_response :success
   end
 
   test 'should get new' do
-    get new_food_url
+    get foods_new_url
     assert_response :success
   end
 
-  test 'should create food' do
-    assert_difference('Food.count') do
-      post foods_url, params: { food: {} }
-    end
-
-    assert_redirected_to food_url(Food.last)
-  end
-
-  test 'should show food' do
-    get food_url(@food)
+  test 'should get create' do
+    get foods_create_url
     assert_response :success
   end
 
   test 'should get edit' do
-    get edit_food_url(@food)
+    get foods_edit_url
     assert_response :success
   end
 
-  test 'should update food' do
-    patch food_url(@food), params: { food: {} }
-    assert_redirected_to food_url(@food)
+  test 'should get update' do
+    get foods_update_url
+    assert_response :success
   end
 
-  test 'should destroy food' do
-    assert_difference('Food.count', -1) do
-      delete food_url(@food)
-    end
-
-    assert_redirected_to foods_url
+  test 'should get destroy' do
+    get foods_destroy_url
+    assert_response :success
   end
 end

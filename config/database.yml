@@ -17,29 +17,30 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  username: postgres
+  password: 1234
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: postgres
-  password: 1234
 
 development:
   <<: *default
-  database: Recipe-app
-  # database: Recipe_app_development
-
+  database: recipe_app_development
+  username: postgres
+  password: 1234
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  username: postgres
-  password: 1234
-  # password: ''
+  #username: recipe_app
+
+  # The password associated with the postgres role (username).
+  #password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  host: localhost
+  #host: localhost
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
@@ -59,18 +60,9 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: Recipe-app-test
-  # url: <%= ENV['TEST_DATABASE_URL'] %>
+  database: recipe_app_test
   username: postgres
   password: 1234
-
-# Important --------------------------
-# To run the tests, create the database by running the below command
-# rails db:create RAILS_ENV=test
-# rails db:migrate RAILS_ENV=test
-# run rspec
-# -------------------------------------
-
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.
@@ -93,6 +85,7 @@ test:
 #
 production:
   <<: *default
-  database: Recipe-app
-  username: postgres
-  password: 1234
+  database: recipe_app_production
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>

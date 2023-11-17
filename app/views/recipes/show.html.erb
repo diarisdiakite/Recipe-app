@@ -1,21 +1,76 @@
-<p style="color: green"><%= notice %></p>
+<div class="contRecipeDetails" id="contRecipeDetails">
+    <h1>Recipe <%= @recipe_data.id %> - <%= @recipe_data.name %></h1>
+    <h2>details</h2>
 
-<%= render @recipe %>
-<%= button_to "Destroy this recipe", @recipe, method: :delete %>
+    <div class="contRecip1">
+        <p>Preparation time: <%= @recipe_data.preparation_time %> hour</p>
+        
+        
+        <div class="contToggleShow">
+            <p>Public: <%= @recipe_data.public ? "Sí" : "No" %></p>
+            <div class="toggle-button">
+                <input type="checkbox" id="toggle1" class="slider" <%= @recipe_data.public ? 'checked' : '' %>>
+                <label class="slider-label" for="toggle1">
+                    <div class="circle"></div>
+                </label>       
+            </div>
+        </div>
+    </div>
 
-<div>
-  <%= link_to "Edit this recipe", edit_recipe_path(@recipe) %> |
-  <%= link_to "Back to recipes", recipes_path %>
+    <p>Cooking time: <%= @recipe_data.cooking_time %> hours</p>
+    
+    <p><%= @recipe_data.description %></p>
 
+    <div class="contRecip2">
+        <%= link_to "Generate shopping list", shopping_list_path, class: "btnDetails"%>
+        <%= link_to "Add ingredient", new_recipe_food_path(recipe_id: @recipe_data.id), class: "btnDetails"%>        
+    </div>  
 </div>
 
-<div class="comments">
-  <ul>
-    <% @recipe.foods.each do |food| %>
-      <li><%= "#{food.user.name}: #{food.name}" %></li>
-      <% if can? :destroy, food %>
-        <%= button_to 'Delete', recipe_food_path(user_id: @user.id, recipe_id: @recipe.id, id: food.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-      <% end %>
-    <% end %>
-  </ul>
+<div class="table">
+    <table>
+        <thead>
+            <tr>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Value</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @foods.each do |item| %>
+                <tr>
+                    <td><%= item.food.name %></td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item.quantity * item.food.price %></td>
+                    <td class="actionsShow">
+                        <%= link_to "Modify", class: "link to"%>
+                        <%= "&nbsp;" "&nbsp;".html_safe %>
+                        <%= button_to "Remove", recipe_food_path(item.id), method: :delete %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
 </div> 
+
+<script> 
+
+checkbox = document.getElementById("toggle1");
+
+checkbox.addEventListener("change", function() {
+    const newValue = this.checked;
+
+fetch("<%= update_public_recipe_path(@recipe_data.id) %>?public=" + newValue, {
+      method: "GET",
+      headers: {
+        "X-CSRF-Token": "<%= form_authenticity_token %>",
+      },
+    });
+  });  
+
+</script> 
+
+
+
+
