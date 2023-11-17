@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -14,7 +12,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'ffd538a4666429871c4413087937f5746dae598e0fdd4efbaf02c5ede9fd4750e24e1fe8bd36b5b6e72937d50b222377bd49ab936d7ef44440553e154ccace53'
+  # config.secret_key = '6be823c01797a70c442416820f805135237a1471401aea2a0e7d8967e2d761406495899b7eabaf4787af6016041cd4cf2059a4dced04b181ae19b270626b12a1'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -126,7 +124,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '2b2dc6bbfa7a827d86e50d70180111a8f9272ee95d67587b421c2b13c3e66d562408acf440baa55d689845d8906a7e61e7d53436d30622c49f09ca2e40415b73'
+  # config.pepper = '715639304c0879eb8b96353e8f99525ccaa878075c961a76ef5276c5b894b8009aef690b0f0a139a5613eb6116c167a3ec9cb30fdff4abb757f6f97465095527'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -143,7 +141,7 @@ Devise.setup do |config|
   # without confirming their account.
   # Default is 0.days, meaning the user cannot access the website without
   # confirming their account.
-  config.allow_unconfirmed_access_for = 2.days
+  # config.allow_unconfirmed_access_for = 2.days
 
   # A period that the user is allowed to confirm their account before their
   # token becomes invalid. For example, if set to 3.days, the user can confirm
@@ -219,7 +217,7 @@ Devise.setup do |config|
   # ==> Configuration for :recoverable
   #
   # Defines which key will be used when recovering the password for an account
-  config.reset_password_keys = [:email]
+  # config.reset_password_keys = [:email]
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
@@ -299,7 +297,7 @@ Devise.setup do |config|
   # ==> Hotwire/Turbo configuration
   # When using Devise with Hotwire/Turbo, the http status for error responses
   # and some redirects must match the following. The default in Devise for existing
-  # apps is `200 OK` and `302 Found` respectively, but new apps are generated with
+  # apps is `200 OK` and `302 Found respectively`, but new apps are generated with
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
   config.responder.error_status = :unprocessable_entity
