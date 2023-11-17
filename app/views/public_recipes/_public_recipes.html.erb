@@ -1,0 +1,11 @@
+<div id="<%= dom_id recipe %>">
+  <div class="container">
+    <div class="item">
+      <h2 class="left">
+        <%= link_to recipe.name, recipe_path(recipe) %>
+        <%= by "#{recipe.user.name}" %>
+      </h2>
+      <p class="right"><%= recipe.description %></p>
+    </div>
+  </div>
+</div>
