@@ -1,13 +1,18 @@
-<div class="general-container">
-<p style="color: green"><%= notice %></p>
+<div class="contRecipes">
+    <h1>List of recipes</h1>
 
-<h1>Recipes</h1>
-<button>
-<%= link_to "New recipe", new_recipe_path %>
-</button>
-<div id="recipes">
-  <% @recipes.each do |recipe| %>
-    <%= render recipe %>
-  <% end %>
-</div>
+    <% @recipes_data.each do |item| %>
+        <div class="recipe">
+            <div class="title">
+            <p> <%= link_to item.name, recipe_path(item.id), class: "newRecipeName"%> </p>
+            <% if(@user_owner == item.user_id) %>
+                <%= button_to "REMOVE", recipe_path(item.id), method: :delete %>
+            <% end %>
+            </div>
+            <p> <%= item.description %> </p>
+        </div>
+    <% end %>
+
+    <%= link_to "Add new recipe", new_recipe_path, class: "newRecipe" %>
+
 </div>
