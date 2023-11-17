@@ -166,3 +166,15 @@ button {
   font-size: 22px;
   border: 2px solid black;
 }
+
+.general-container-user{
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  column-gap: 20px;
+  margin: 20px 0;
+  align-items: center;
+  justify-content: start;
+  padding: 20px 40px;
+  font-size: 22px;
+  border: 2px solid black;
+}
