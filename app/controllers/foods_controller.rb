@@ -1,72 +1,92 @@
 class FoodsController < ApplicationController
-  load_and_authorize_resource
-
+  before_action :authenticate_user!
   before_action :set_food, only: %i[show edit update destroy]
-  skip_before_action :authenticate_user!, only: [:index]
 
-  # GET /foods or /foods.json
   def index
-    @foods = Food.all
+    @foods = if params[:sort] == 'name'
+               current_user.foods.where(is_deleted: false).order('LOWER(name)')
+             else
+               current_user.foods.where(is_deleted: false)
+             end
   end
 
-  # GET /foods/1 or /foods/1.json
-  def show; end
-
-  # GET /foods/new
   def new
     @food = Food.new
   end
 
-  # GET /foods/1/edit
-  def edit; end
-
-  # POST /foods or /foods.json
   def create
-    @food = current_user.foods.new(food_params)
+    formatted_name = format_food_name(food_params[:name])
+    existing_food = current_user.foods.find_by(name: formatted_name)
 
-    respond_to do |format|
-      if @food.save
-        format.html { redirect_to food_url(@food), notice: 'Food was successfully created.' }
-        format.json { render :show, status: :created, location: @food }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @food.errors, status: :unprocessable_entity }
-      end
+    if existing_food
+      update_existing_food(existing_food)
+    else
+      create_new_food(formatted_name)
     end
   end
 
-  # PATCH/PUT /foods/1 or /foods/1.json
-  def update
-    respond_to do |format|
-      if @food.update(food_params)
-        format.html { redirect_to food_url(@food), notice: 'Food was successfully updated.' }
-        format.json { render :show, status: :ok, location: @food }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @food.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /foods/1 or /foods/1.json
   def destroy
-    @food.destroy
-
-    respond_to do |format|
-      format.html { redirect_to foods_url, notice: 'Food was successfully destroyed.' }
-      format.json { head :no_content }
+    @food = Food.find(params[:id])
+    if @food.update(is_deleted: true)
+      flash[:notice] = 'Food was successfully "deleted".'
+    else
+      flash[:alert] = 'Failed to "delete" food!'
     end
+    redirect_to foods_path
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_food
     @food = Food.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def food_params
     params.require(:food).permit(:name, :measurement_unit, :price, :quantity)
+  end
+
+  def format_food_name(name)
+    formatted_name = name.strip.downcase.titleize.singularize
+    formatted_name.gsub(/\s+/, '')
+  end
+
+  def update_existing_food(existing_food)
+    if existing_food.is_deleted
+      reactivate_and_update_food(existing_food)
+    else
+      update_food_quantity_and_price(existing_food)
+    end
+    redirect_to foods_path, notice: 'Food quantity and price were successfully updated.'
+  end
+
+  def reactivate_and_update_food(food)
+    food.update(
+      is_deleted: false,
+      quantity: food_params[:quantity].to_i,
+      price: food_params[:price].to_f
+    )
+  end
+
+  def update_food_quantity_and_price(food)
+    new_quantity, avg_price = calculate_new_quantity_and_price(food)
+    food.update(quantity: new_quantity, price: avg_price)
+  end
+
+  def calculate_new_quantity_and_price(food)
+    new_quantity = food.quantity + food_params[:quantity].to_i
+    total_cost_old = food.price * food.quantity
+    total_cost_new = food_params[:price].to_f * food_params[:quantity].to_i
+    total_cost = total_cost_old + total_cost_new
+    avg_price = total_cost / new_quantity
+    [new_quantity, avg_price]
+  end
+
+  def create_new_food(formatted_name)
+    @food = current_user.foods.build(food_params.merge(name: formatted_name))
+    if @food.save
+      redirect_to foods_path, notice: 'Food was successfully created.'
+    else
+      render :new
+    end
   end
 end
