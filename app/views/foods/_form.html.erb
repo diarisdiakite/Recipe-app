@@ -11,18 +11,18 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="form-container">
     <%= form.label :name %>
     <%= form.text_field :name %>
 
     <%= form.label :measurement_unit %>
-    <%= form.number_field :measurement_unit %>
+    <%= form.text_field :measurement_unit %>
 
     <%= form.label :price %>
     <%= form.number_field :price %>
 
     <%= form.label :quantity %>
-    <%= form.text_area :quantity %>
+    <%= form.number_field :quantity %>
     <%= form.submit %>
   </div>
 <% end %>
