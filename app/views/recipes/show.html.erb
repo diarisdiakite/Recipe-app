@@ -45,11 +45,29 @@
           </td>
           <td>
             <%= link_to "Delete food", recipe_food_path(@recipe, food), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to "Remove from Cart", recipe_shopping_cart_path(@recipe, food_id: food.id), method: :delete %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
+  <br>
 
+  <%= form_with(model: [@recipe, Food.new], url: recipe_foods_path(@recipe), method: :post, remote: true) do |form| %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+
+    <%= form.label :measurement_unit %>
+    <%= form.text_field :measurement_unit %>
+
+    <%= form.label :price %>
+    <%= form.number_field :price %>
+
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity %>
+    <%= form.submit "Add an ingredient" %>
+  <% end %>
 </div>

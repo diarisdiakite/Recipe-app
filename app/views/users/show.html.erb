@@ -16,7 +16,7 @@
   <ul class="user-posts">
     <% @recipes.each do |recipe| %>
       <li class="user-post">
-        <h3><%= link_to recipe.name, user_recipe_path(recipe.user, recipe) %></h3>
+        <h3><%= link_to recipe.name, recipe_path(recipe.user, recipe) %></h3>
         <p><%= recipe.description %></p>
         <br>
         <small class="item-count"></small>
@@ -25,5 +25,5 @@
   </ul>
 </div>
 <div class="button">
-  <button><%= link_to "View All Recipes", user_recipes_path(@user) %></button>
+  <button><%= link_to "View All Recipes", recipes_path(@user) %></button>
 </div>

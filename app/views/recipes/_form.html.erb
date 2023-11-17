@@ -12,6 +12,9 @@
   <% end %>
 
   <div class="form-container">
+    <%= form.label :public, "Public" %>
+    <%= form.check_box :public %>
+
     <%= form.label :name %>
     <%= form.text_field :name %>
 

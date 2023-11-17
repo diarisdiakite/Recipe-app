@@ -3,7 +3,7 @@
     <div class="item">
       <h2 class="left">
         <%= link_to recipe.name, recipe_path(recipe) %>
-        <%= by "#{recipe.user.name}" %>
+        <%= " by #{recipe.user.name}" %>
       </h2>
       <p class="right"><%= recipe.description %></p>
     </div>

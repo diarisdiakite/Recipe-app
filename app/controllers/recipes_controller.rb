@@ -9,11 +9,6 @@ class RecipesController < ApplicationController
     @recipes = Recipe.all
   end
 
-  def public_recipes
-    @recipes = Recipe.public_recipes
-    render :index
-  end
-
   def private_recipes
     @recipes = Recipe.private_recipes
     render :index
@@ -77,6 +72,6 @@ class RecipesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def recipe_params
-    params.require(:recipe).permit(:name, :preparation_time, :cooking_time, :description)
+    params.require(:recipe).permit(:name, :preparation_time, :cooking_time, :description, :public)
   end
 end
