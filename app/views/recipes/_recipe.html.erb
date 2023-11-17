@@ -1,8 +1,7 @@
 <div id="<%= dom_id recipe %>">
-  <li class="container">
-    <div class="recipe-details">
+    <div class="container-recipe">
       <h2 class="title"><%= link_to recipe.name, recipe_path(recipe) %></h2>
+      <div class="comments">
       <p class="details"><%= recipe.description %></p>
     </div>
-  </li>
 </div>

@@ -1,11 +1,13 @@
+<div class="general-container">
 <p style="color: green"><%= notice %></p>
 
 <h1>Recipes</h1>
-
+<button>
+<%= link_to "New recipe", new_recipe_path %>
+</button>
 <div id="recipes">
   <% @recipes.each do |recipe| %>
     <%= render recipe %>
   <% end %>
 </div>
-
-<%= link_to "New recipe", new_recipe_path %>
+</div>
