@@ -123,16 +123,17 @@ You can deploy the Recipe-app application using: google cloud, Microsoft Azure, 
 
 ## 👥 Authors <a name="authors"></a>
 
-👤 Didy
+👤 **Didy**
 
 GitHub: [@Didy](https://www.github.com/diarisdiakite)
 <br> Twitter: [@diarisdiakite](https://www.twitter.com/diarisd)
 <br>LinkedIn: [@diarisdiakite](https://www.linkedin.com/in/diariatou-diakite-67ab80165/)
 <br><br>
 
-GitHub: [@Ali]()
-<br> Twitter: [@Ali]()
-<br>LinkedIn: [@dAli]()
+👤 **Ali Baba Hussaini**
+
+- GitHub: [@Alibaba2023](https://github.com/Alibaba2023/)
+- LinkedIn [Alibaba Hussaini](https://www.linkedin.com/in/ali-baba-hussaini-630607267/)
 <br><br>
 
 
